@@ -10,6 +10,8 @@ public class StaticShooter : MonoBehaviour
 
     public GameObject currentTarget;
     public List<GameObject> targetsList = new List<GameObject>();
+
+    public LayerMask layersThatChecks;
     void Awake()
     {
         try
@@ -27,7 +29,8 @@ public class StaticShooter : MonoBehaviour
         if(targetsList.Count > 0 )
         {
             shootController.target = currentTarget.transform;
-            shootController.Shoot(currentTarget.transform.position - transform.position);
+            if (CheckTarget(currentTarget)) shootController.Shoot(currentTarget.transform.position - transform.position);
+            else CheckTargets();
         }
     }
     private void OnTriggerEnter2D(Collider2D collision)
@@ -55,18 +58,27 @@ public class StaticShooter : MonoBehaviour
     {
         foreach (GameObject check in targetsList)
         {
-            RaycastHit2D hit = Physics2D.Raycast(gameObject.transform.position, check.transform.position);
-            if(hit.transform.gameObject == check)
+            if (CheckTarget(check))
             {
                 currentTarget = check;
                 break;
             }
         }
     }
-    public bool CheckTarget(GameObject targ)
+    public bool CheckTarget(GameObject target)
     {
-            RaycastHit2D hit = Physics2D.Raycast(gameObject.transform.position, targ.transform.position);
-            if (hit.transform.gameObject == targ) return true;
-            else return false;
+        Physics2D.queriesHitTriggers = false;
+        RaycastHit2D hit = Physics2D.Raycast(transform.position, target.transform.position - transform.position, 1000f, layersThatChecks);
+        if (hit.collider.gameObject == target)
+        {
+            Debug.DrawLine(transform.position, hit.point,Color.green);
+            return true;
+        }
+        else
+        {
+            Debug.DrawLine(transform.position, hit.point, Color.red);
+            return false;
+        }
     }
+
 }

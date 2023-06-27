@@ -39,6 +39,7 @@ public class MovementControler : MonoBehaviour
             rg.velocity = vectorBuffer;
         }
 
+        //Just a fast ground check, it will be fixed soon:)
         if (rg.velocity.y == 0)
         {
             canJump = true;

@@ -31,7 +31,7 @@ public class Shell : MonoBehaviour
                 collisions++;
             }
         }
-        else if(collision.TryGetComponent<Obstacle>(out Obstacle obstacle))
+        else if(collision.TryGetComponent<Obstacle>(out Obstacle obstacle) && !obstacle.canShootThrough)
         {
             collisions++;
         }

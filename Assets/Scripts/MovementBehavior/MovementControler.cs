@@ -15,6 +15,7 @@ public class MovementControler : MonoBehaviour
     public float vertcalSpeed;
     [HideInInspector]
     public Collider2D col;
+    private float startGravity;
 
     public float horisontalAcceleration;
     public float vertcalAcceleration;
@@ -22,6 +23,9 @@ public class MovementControler : MonoBehaviour
 
     [Space]
     public bool canJump = false;
+    public LayerMask canJumpFrom;
+    public float timeForJump = 0.3f;
+    private float jumpTimer;
 
     private Vector2 vectorBuffer;
 
@@ -29,6 +33,7 @@ public class MovementControler : MonoBehaviour
     {
         rg = GetComponent<Rigidbody2D>();
         col = GetComponent<Collider2D>();
+        startGravity = rg.gravityScale;
     }
     private void FixedUpdate()
     {
@@ -39,15 +44,18 @@ public class MovementControler : MonoBehaviour
             rg.velocity = vectorBuffer;
         }
 
-        //Just a fast ground check, it will be fixed soon:)
-        if (rg.velocity.y == 0)
+        if(rg.velocity.y < 0f)
         {
-            canJump = true;
+            rg.gravityScale = startGravity*1.5f; 
         }
         else
         {
-            canJump = false;
-         }
+            rg.gravityScale = startGravity ;
+        }
+    }
+    public void Update()
+    {
+         CheckJump();
     }
 
     public void MovePlayer(Vector2 vector)
@@ -57,9 +65,26 @@ public class MovementControler : MonoBehaviour
 
         if (vector.y > 0.8f && canJump)
         {
-            rg.AddForce(new Vector2(0f, vertcalAcceleration));
+            vectorBuffer.y = vertcalAcceleration;
+            canJump = false;
         }
 
         rg.velocity = vectorBuffer;
+    }
+
+    private static bool additionalJumpTime = false;
+    public void CheckJump()
+    {
+        if(Physics2D.BoxCast(col.bounds.center, col.bounds.size,0f, Vector2.down, 0.1f, canJumpFrom))
+        {
+            canJump = true;
+            jumpTimer = timeForJump;
+        }
+        else
+        {
+            jumpTimer -= Time.deltaTime;
+            if(jumpTimer < 0)canJump = false;
+        }
+
     }
 }

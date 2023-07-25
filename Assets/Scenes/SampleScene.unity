@@ -1173,6 +1173,7 @@ GameObject:
   - component: {fileID: 661326357}
   - component: {fileID: 661326356}
   - component: {fileID: 661326355}
+  - component: {fileID: 661326358}
   m_Layer: 0
   m_Name: Wall (16)
   m_TagString: Untagged
@@ -1188,8 +1189,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 661326353}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 14.48, y: 5.47, z: 0}
-  m_LocalScale: {x: 0.58563024, y: 0.17963697, z: 0.343369}
+  m_LocalPosition: {x: 0.21, y: 5.0491, z: 0}
+  m_LocalScale: {x: 0.58563024, y: 0.13237448, z: 0.343369}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1263163320}
@@ -1220,7 +1221,7 @@ BoxCollider2D:
   m_Density: 1
   m_Material: {fileID: 0}
   m_IsTrigger: 0
-  m_UsedByEffector: 0
+  m_UsedByEffector: 1
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
   m_SpriteTilingProperty:
@@ -1287,6 +1288,25 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!251 &661326358
+PlatformEffector2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 661326353}
+  m_Enabled: 1
+  m_UseColliderMask: 1
+  m_ColliderMask:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_RotationalOffset: 180
+  m_UseOneWay: 1
+  m_UseOneWayGrouping: 0
+  m_SurfaceArc: 180
+  m_UseSideFriction: 0
+  m_UseSideBounce: 0
+  m_SideArc: 1
 --- !u!1 &688715007
 GameObject:
   m_ObjectHideFlags: 0
@@ -2587,9 +2607,13 @@ MonoBehaviour:
   vertcalSpeed: 0
   col: {fileID: 0}
   horisontalAcceleration: 10
-  vertcalAcceleration: 500
+  vertcalAcceleration: 13
   maxFallSpeed: 10
   canJump: 0
+  canJumpFrom:
+    serializedVersion: 2
+    m_Bits: 385
+  timeForJump: 0.1
 --- !u!114 &1429111692
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2603,7 +2627,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   healthBar: {fileID: 187637137}
-  healtPoints: 3
+  healtPoints: 10
   maxHealthPoints: 10
   team: 1
 --- !u!114 &1429111693
@@ -3258,6 +3282,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1660253782}
   - component: {fileID: 1660253783}
+  - component: {fileID: 1660253784}
   m_Layer: 6
   m_Name: Crosshair
   m_TagString: Untagged
@@ -3274,7 +3299,7 @@ Transform:
   m_GameObject: {fileID: 1660253781}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 7.0000005, y: 4, z: 3.8893094}
+  m_LocalScale: {x: 7.000001, y: 4, z: 3.8893094}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1429111689}
@@ -3332,6 +3357,19 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &1660253784
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1660253781}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9d0e2bfabf77b294e87c73b2d50a5767, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  targetArea: {fileID: 0}
 --- !u!1 &1676785346
 GameObject:
   m_ObjectHideFlags: 0

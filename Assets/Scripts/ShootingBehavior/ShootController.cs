@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 
 public class ShootController : MonoBehaviour
@@ -7,6 +8,7 @@ public class ShootController : MonoBehaviour
     public Gun gun;
     public Transform target;
     public int team;
+    public bool canShoot = true;
 
     private void Awake()
     {
@@ -20,10 +22,24 @@ public class ShootController : MonoBehaviour
     }
     public void Shoot()
     {
-        gun.Shoot(target.position - transform.position,team);
+        Shoot(target.position - transform.position,team);
     }
     public void Shoot(Vector2 direction)
     {
-        gun.Shoot(direction, team);
+        Shoot(direction, team);
+    }
+    public void Shoot(Vector2 direction, int team)
+    {
+        if (canShoot)
+        {
+            Instantiate<GameObject>(gun.shell, transform.position, Quaternion.identity).GetComponent<Shell>().SetUp(gun, direction, team, gun.speed);
+            StartCoroutine(coolDown());
+        }
+    }
+    IEnumerator coolDown()
+    {
+        canShoot = false;
+        yield return new WaitForSeconds(gun.reloadTime);
+        canShoot = true;
     }
 }

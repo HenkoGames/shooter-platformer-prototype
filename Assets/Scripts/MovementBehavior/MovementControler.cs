@@ -21,6 +21,7 @@ public class MovementControler : MonoBehaviour
     public float vertcalAcceleration;
     public float maxFallSpeed = 10f;
 
+
     [Space]
     public bool canJump = false;
     public LayerMask canJumpFrom;
@@ -68,14 +69,19 @@ public class MovementControler : MonoBehaviour
             vectorBuffer.y = vertcalAcceleration;
             canJump = false;
         }
+        if (vector.y < -0.8f && !canJump)
+        {
+            vectorBuffer.y = -vertcalAcceleration;
+        }
 
         rg.velocity = vectorBuffer;
+
     }
 
     private static bool additionalJumpTime = false;
     public void CheckJump()
     {
-        if(Physics2D.BoxCast(col.bounds.center, col.bounds.size,0f, Vector2.down, 0.1f, canJumpFrom))
+        if(Physics2D.BoxCast(col.bounds.center, col.bounds.size * 0.95f,0f, Vector2.down, 0.1f, canJumpFrom))
         {
             canJump = true;
             jumpTimer = timeForJump;
